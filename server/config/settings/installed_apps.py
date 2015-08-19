@@ -7,13 +7,26 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
     'grappelli',
     'django.contrib.admin',
-
+    'easy_thumbnails',
+    'modeltranslation_grappelli',
 )
 
 LOCAL_APPS = (
-    'apps.main',
+    'main',
+    'filestorage',
+    'page',
 )
+MIGRATION_PATH = 'config.migrations.'
 
-INSTALLED_APPS += LOCAL_APPS
+MIGRATION_MODULES = {
+    'flatpages': MIGRATION_PATH + 'flatpages',
+}
+
+for item in LOCAL_APPS:
+    MIGRATION_MODULES[item] = MIGRATION_PATH + item
+    INSTALLED_APPS += ('apps.{0}'.format(item),)
+
+# INSTALLED_APPS += LOCAL_APPS

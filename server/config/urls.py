@@ -9,6 +9,7 @@ urlpatterns = patterns(
     '',
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^pages/', include('django.contrib.flatpages.urls')),
 )
 
 # for internal apps
