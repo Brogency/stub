@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import datetime
 import os
 
 from django.conf import settings
@@ -12,6 +13,7 @@ from django.db import models
 from multiselectfield import MultiSelectField
 from funcy import last
 from .mixins.image import ImageThumbnailMixin
+from django.template import defaultfilters
 
 
 class FileStorage(ImageThumbnailMixin):
@@ -41,14 +43,22 @@ class FileStorage(ImageThumbnailMixin):
         blank=True,
         null=True,
     )
+    created = models.DateTimeField(
+        verbose_name=_('Created'),
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         app_label = 'filestorage'
         verbose_name = _('FileStorage')
         verbose_name_plural = _('FileStorages')
 
+    def __str__(self):
+        return str(os.path.basename(self.document.name))
+
     def __unicode__(self):
-        return os.path.basename(self.document.name)
+        return str(os.path.basename(self.document.name))
 
     @property
     def ext(self):
@@ -59,6 +69,10 @@ class FileStorage(ImageThumbnailMixin):
     def doc(self):
         """For ImageThumbnailMixin."""
         return self.document
+
+    @property
+    def size(self):
+        return defaultfilters.filesizeformat(self.document.size)
 
 
 class RelativeFileStorage(ImageThumbnailMixin):
@@ -88,14 +102,21 @@ class RelativeFileStorage(ImageThumbnailMixin):
         'object_id'
     )
 
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("document__id__iexact", 'document__document__icontains', )
+
     class Meta:
         ordering = ['order']
         app_label = 'filestorage'
         verbose_name = _('RelativeFileStorage')
         verbose_name_plural = _('RelativeFileStorages')
 
+    def __str__(self):
+        return str(self.document.__str__())
+
     def __unicode__(self):
-        return self.document
+        return str(self.document.__unicode__())
 
     @property
     def ext(self):
@@ -107,7 +128,13 @@ class RelativeFileStorage(ImageThumbnailMixin):
         """For ImageThumbnailMixin."""
         return self.document.document
 
+    @property
+    def size(self):
+        return defaultfilters.filesizeformat(self.document.document.size)
+
 
 @receiver(pre_save, sender=FileStorage)
 def create_initial_story(sender, instance, **kwargs):
-    instance.extension = last(instance.__unicode__().split('.')).upper()
+    if not instance.id:
+        instance.created = datetime.datetime.today()
+    instance.extension = last(instance.__str__().split('.')).upper()

@@ -12,6 +12,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'easy_thumbnails',
     'modeltranslation_grappelli',
+    'redactor',
+    'codemirror',
+    'daterange_filter',
 )
 
 LOCAL_APPS = (
@@ -29,4 +32,3 @@ for item in LOCAL_APPS:
     MIGRATION_MODULES[item] = MIGRATION_PATH + item
     INSTALLED_APPS += ('apps.{0}'.format(item),)
 
-# INSTALLED_APPS += LOCAL_APPS

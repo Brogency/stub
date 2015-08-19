@@ -101,6 +101,9 @@ MEDIA_ROOT = join(ROOT_PATH, 'media')
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = ('static',)
 TEMPLATE_DIRS = ('templates',)
+REDACTOR_UPLOAD = 'content/'
+CODEMIRROR_MODE = 'htmlmixed'
+CODEMIRROR_PATH = 'page/codemirror'
 
 ##################################################################
 # Finders, loaders, middleware and context processors

@@ -7,6 +7,7 @@ from django.contrib import admin
 
 urlpatterns = patterns(
     '',
+    url(r'^redactor/', include('redactor.urls')),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^pages/', include('django.contrib.flatpages.urls')),

@@ -19,7 +19,7 @@ class EditorTypesEnum(object):
     # second options for this instance
 
     EDITOR_TYPES = (
-        (RedactorEditor, {},),
+        (RedactorEditor, {'upload_to': 'content/'},),
         (CodeMirrorTextarea, {'dependencies': ("xml", "javascript", "css")}),
     )
 

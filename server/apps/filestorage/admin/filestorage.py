@@ -5,11 +5,12 @@ from django.utils.translation import ugettext_lazy as _
 from modeltranslation_grappelli.admin.mixin import CustomMinTabbedTranslationAdmin
 from .mixins.inline import FileStorageInlineMixin
 from apps.filestorage.models import FileStorage
+from django.contrib.admin import DateFieldListFilter
 
 
 class FileStorageAdmin(CustomMinTabbedTranslationAdmin):
-    list_display = ('__unicode__', 'extension', 'description', 'image_tag',)
-    list_filter = ('extension',)
+    list_display = ('__str__', 'extension', 'size', 'description', 'category', 'image_tag', 'created')
+    list_filter = ('extension', 'category', ('created', DateFieldListFilter))
     readonly_fields = ('extension',)
     search_fields = ('document',)
 

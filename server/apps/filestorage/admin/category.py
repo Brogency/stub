@@ -5,8 +5,7 @@ from apps.filestorage.models import Category
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    """Override this class or remove"""
-    pass
+    list_display = ('name',)
 
 
 admin.site.register(Category, CategoryAdmin)

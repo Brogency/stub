@@ -17,6 +17,10 @@ class FileStorageInlineMixin(GrappelliSortableHiddenMixin,
     sortable_field_name = 'order'
     file_type = None
 
+    autocomplete_lookup_fields = {
+        'fk': ['document'],
+    }
+
     def get_queryset(self, request):
         if self.file_type is None or self.file_type not in self.FILE_TYPES:
             raise Exception(
