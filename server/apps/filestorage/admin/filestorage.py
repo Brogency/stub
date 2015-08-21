@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import apps.filestorage.translation
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
@@ -9,7 +10,7 @@ from django.contrib.admin import DateFieldListFilter
 
 
 class FileStorageAdmin(CustomMinTabbedTranslationAdmin):
-    list_display = ('__str__', 'extension', 'size', 'description', 'category', 'image_tag', 'created')
+    list_display = ('__unicode__', 'extension', 'size', 'description', 'category', 'image_tag', 'created')
     list_filter = ('extension', 'category', ('created', DateFieldListFilter))
     readonly_fields = ('extension',)
     search_fields = ('document',)

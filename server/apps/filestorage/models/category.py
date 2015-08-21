@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -12,7 +13,7 @@ class Category(models.Model):
         verbose_name=_("hidden"),
     )
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Meta:

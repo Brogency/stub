@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -11,6 +12,7 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'easy_thumbnails',
+    'modeltranslation',
     'modeltranslation_grappelli',
     'redactor',
     'codemirror',
@@ -18,17 +20,16 @@ INSTALLED_APPS = (
 )
 
 LOCAL_APPS = (
-    'main',
-    'filestorage',
-    'page',
+    'apps.main',
+    'apps.filestorage',
+    'apps.page',
 )
+
+INSTALLED_APPS += LOCAL_APPS
+
 MIGRATION_PATH = 'config.migrations.'
 
 MIGRATION_MODULES = {
     'flatpages': MIGRATION_PATH + 'flatpages',
+    'filestorage': MIGRATION_PATH + 'filestorage',
 }
-
-for item in LOCAL_APPS:
-    MIGRATION_MODULES[item] = MIGRATION_PATH + item
-    INSTALLED_APPS += ('apps.{0}'.format(item),)
-

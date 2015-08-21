@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 import datetime
 import os
-
 from django.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -54,11 +53,8 @@ class FileStorage(ImageThumbnailMixin):
         verbose_name = _('FileStorage')
         verbose_name_plural = _('FileStorages')
 
-    def __str__(self):
-        return str(os.path.basename(self.document.name))
-
     def __unicode__(self):
-        return str(os.path.basename(self.document.name))
+        return os.path.basename(self.document.name)
 
     @property
     def ext(self):
@@ -112,11 +108,8 @@ class RelativeFileStorage(ImageThumbnailMixin):
         verbose_name = _('RelativeFileStorage')
         verbose_name_plural = _('RelativeFileStorages')
 
-    def __str__(self):
-        return str(self.document.__str__())
-
     def __unicode__(self):
-        return str(self.document.__unicode__())
+        return self.document.__unicode__()
 
     @property
     def ext(self):
@@ -137,4 +130,4 @@ class RelativeFileStorage(ImageThumbnailMixin):
 def create_initial_story(sender, instance, **kwargs):
     if not instance.id:
         instance.created = datetime.datetime.today()
-    instance.extension = last(instance.__str__().split('.')).upper()
+    instance.extension = last(instance.__unicode__().split('.')).upper()

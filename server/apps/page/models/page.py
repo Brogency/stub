@@ -19,7 +19,7 @@ class EditorTypesEnum(object):
     # second options for this instance
 
     EDITOR_TYPES = (
-        (RedactorEditor, {'upload_to': 'content/'},),
+        (RedactorEditor, {},),
         (CodeMirrorTextarea, {'dependencies': ("xml", "javascript", "css")}),
     )
 
@@ -48,23 +48,28 @@ class EditorTypesEnum(object):
 
 # add additional field document_set
 FlatPage.add_to_class(
-    'document_set', GenericRelation(FileStorage))
+    'document_set', GenericRelation(FileStorage)
+)
 
 # add additional field type_editor
 FlatPage.add_to_class(
     'type_editor', models.IntegerField(
         verbose_name=_("Editor_type"),
-        choices=EditorTypesEnum.get_choices()))
+        default=0,
+        choices=EditorTypesEnum.get_choices())
+)
 
 # add additional field file_set
 FlatPage.add_to_class(
-    'file_set', GenericRelation(RelativeFileStorage))
+    'file_set', GenericRelation(RelativeFileStorage)
+)
 
 # add field IMAGE_EXTENSIONS
 FlatPage.add_to_class(
-    'IMAGE_EXTENSIONS', ImageThumbnailMixin.IMAGE_EXTENSIONS)
+    'IMAGE_EXTENSIONS',
+    ImageThumbnailMixin.IMAGE_EXTENSIONS
+)
 
-# todo remove copy/past this functions copied from FileStorageMixin
 
 def get_documents(self):
     return self.file_set \
@@ -79,12 +84,20 @@ def get_images(self):
 
 
 FlatPage.add_to_class(
-    'get_documents', get_documents)
+    'get_documents',
+    get_documents
+)
 
 FlatPage.add_to_class(
-    'get_images', get_documents)
+    'get_images',
+    get_documents
+)
 
 FlatPage.add_to_class(
-    'header_text', models.TextField(verbose_name="Header text",
-                                    blank=True, null=True)
+    'header_text',
+    models.TextField(
+        verbose_name="Header text",
+        blank=True,
+        null=True
+    )
 )

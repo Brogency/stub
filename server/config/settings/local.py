@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Local settings template for stub project.
+from __future__ import unicode_literals
 
 DATABASES = {
     'default': {

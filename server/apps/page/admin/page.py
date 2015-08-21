@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.contrib.sites.models import Site
+from modeltranslation_grappelli.admin.mixin import CustomMinTabbedTranslationAdmin
 import apps.page.translation
 from django.contrib import admin
 from django.contrib.flatpages.models import FlatPage
-from modeltranslation_grappelli.admin.mixin import CustomMinTabbedTranslationAdmin
 from apps.filestorage.admin.filestorage import ImageFileStorageInline, \
     DocumentFileStorageInline
 from apps.page.models import EditorTypesEnum
@@ -10,21 +12,21 @@ from apps.page.models import EditorTypesEnum
 
 class PageAdmin(CustomMinTabbedTranslationAdmin):
     list_display = ("url", "title")
+    prepopulated_fields = {"url": ("title",)}
     fieldsets = (
         ("", {
-            "fields": ("url", "title", "type_editor", "header_text", "content",
-                       "sites"),
-        }),
-        ("Advanced options", {
-            "fields": ("enable_comments",
-                       "registration_required",
-                       "template_name"),
+            "fields": ("title", "url", "type_editor", "header_text", "content"),
         }),
     )
     inlines = [
         DocumentFileStorageInline,
         ImageFileStorageInline,
     ]
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == "sites":
+            kwargs["initial"] = [Site.objects.get_current()]
+        return super(PageAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(PageAdmin, self).get_form(request, obj=obj, **kwargs)
