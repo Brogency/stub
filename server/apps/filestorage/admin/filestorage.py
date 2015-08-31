@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import apps.filestorage.translation
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from modeltranslation_grappelli.admin.mixin import CustomMinTabbedTranslationAdmin
@@ -31,3 +30,9 @@ class DocumentFileStorageInline(FileStorageInlineMixin):
     verbose_name = _('document')
     verbose_name_plural = _('Documents')
     file_type = 'document'
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == "languages":
+            kwargs["initial"] = 'ru'
+        return super(DocumentFileStorageInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+

@@ -78,7 +78,7 @@ class RelativeFileStorage(ImageThumbnailMixin):
     )
     languages = MultiSelectField(
         choices=settings.LANGUAGES,
-        max_length=50,
+        max_length=10,
         verbose_name=_('Show for this lang'),
         blank=True,
         null=True,
@@ -100,7 +100,10 @@ class RelativeFileStorage(ImageThumbnailMixin):
 
     @staticmethod
     def autocomplete_search_fields():
-        return ("document__id__iexact", 'document__document__icontains', )
+        return (
+            "document__id__iexact",
+            "document__document__icontains",
+        )
 
     class Meta:
         ordering = ['order']

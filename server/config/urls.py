@@ -18,6 +18,7 @@ urlpatterns = patterns(
 urlpatterns += patterns(
     '',
     url(r'^', include('apps.main.urls', namespace='main')),
+    url(r'^news/', include('apps.news.urls', namespace='news')),
 )
 
 if settings.DEBUG:

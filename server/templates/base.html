@@ -3,7 +3,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>{% trans 'Title' %}</title>
+    <title>{% block title %}{% trans 'Title' %}{% endblock %}</title>
 </head>
 <body>
 {% block content %}

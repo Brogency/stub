@@ -34,7 +34,6 @@ class PageAdmin(CustomMinTabbedTranslationAdmin):
         if obj is None:
             return form
 
-        # getting editor widget and option for this
         editor, opts = EditorTypesEnum.get_editor(obj.type_editor)
 
         for field, value in form.base_fields.items():

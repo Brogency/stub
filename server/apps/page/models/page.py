@@ -15,9 +15,6 @@ from apps.filestorage.models.mixins.image import ImageThumbnailMixin
 
 class EditorTypesEnum(object):
 
-    # Tuple of available editors type. First element: editor class,
-    # second options for this instance
-
     EDITOR_TYPES = (
         (RedactorEditor, {},),
         (CodeMirrorTextarea, {'dependencies': ("xml", "javascript", "css")}),
@@ -56,7 +53,8 @@ FlatPage.add_to_class(
     'type_editor', models.IntegerField(
         verbose_name=_("Editor_type"),
         default=0,
-        choices=EditorTypesEnum.get_choices())
+        choices=EditorTypesEnum.get_choices()
+    )
 )
 
 # add additional field file_set
