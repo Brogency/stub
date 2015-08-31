@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="items">
+    {% for item in object_list %}
+        <div class="items__item">
+            <a href="{{ item.get_absolute_url }}" class="items__item__link">{{ item.title }}</a>
+            <p>{{ item.category }}</p>
+
+            <p>
+                {% thumbnail object.image|default:'news/images/default.png' 300x300 upscale as thumb %}
+                {% if thumb.url %}
+                <img src="{{ thumb.url }}"
+                     width="{{ thumb.width }}"
+                     height="{{ thumb.height }}"/>
+                {% else %}
+                    <img src="{% static 'news/default.jpg' %}"/>
+                {% endif %}
+            </p>
+            <p>{{ item.short_description }}</p>
+            <p>{{ item.created }}</p>
+        </div>
+
+        <hr/>
+    {% empty %}
+        <p>List is empty</p>
+    {% endfor %}
+
+    <div class="items__pagination">
+        <span class="items__pagination__step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="items__pagination__current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <hr/>
+
+    {% url 'news:news.create' as create_url %}
+
+    {% if create_url %}<a href="{{ create_url }}">Create new item</a>{% endif %}
+</div>
+{% endblock %}

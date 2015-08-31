@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import datetime
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 from multiselectfield import MultiSelectField
@@ -36,6 +40,11 @@ class News(FileStorageMixin):
         blank=True,
         null=True,
     )
+    image = models.ImageField(
+        upload_to='news/%Y/%m/%d',
+        blank=True,
+        null=True,
+    )
     slug = models.SlugField(
         verbose_name=_('Slug'),
     )
@@ -62,3 +71,10 @@ class News(FileStorageMixin):
     def __unicode__(self):
         return str(self.pk)
 
+    def get_absolute_url(self):
+        return reverse('news:news.detail', args=(self.pk,))
+
+@receiver(pre_save, sender=News)
+def create_initial(sender, instance, **kwargs):
+    if not instance.id:
+        instance.created = datetime.datetime.today()
