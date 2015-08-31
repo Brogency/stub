@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import datetime
 from django.core.paginator import InvalidPage
 from django.http import Http404
 from django.views.generic import DetailView
@@ -12,6 +13,10 @@ class NewsListView(ListView):
     model = News
     paginate_by = 1
     ordering = ['created']
+
+    def get_queryset(self):
+        qs = super(NewsListView, self).get_queryset()
+        return qs.filter(hidden=False, created__lte=datetime.now())
 
     def paginate_queryset(self, queryset, page_size):
         paginator = self.get_paginator(
