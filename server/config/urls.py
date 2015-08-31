@@ -19,6 +19,7 @@ urlpatterns += patterns(
     '',
     url(r'^', include('apps.main.urls', namespace='main')),
     url(r'^news/', include('apps.news.urls', namespace='news')),
+    url(r'^feedback/', include('apps.feedback.urls', namespace='feedback')),
 )
 
 if settings.DEBUG:

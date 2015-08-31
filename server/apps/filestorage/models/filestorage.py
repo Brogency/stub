@@ -88,7 +88,6 @@ class RelativeFileStorage(ImageThumbnailMixin):
         default=0,
         verbose_name=_('Order'),
     )
-
     content_type = models.ForeignKey(
         ContentType
     )

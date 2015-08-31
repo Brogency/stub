@@ -24,6 +24,7 @@ LOCAL_APPS = (
     'apps.filestorage',
     'apps.page',
     'apps.news',
+    'apps.feedback',
 )
 
 INSTALLED_APPS += LOCAL_APPS

@@ -1,1 +1,6 @@
 {% extends 'base.html' %}
+{% load feedback %}
+
+{% block content %}
+    {% feedback_form %}
+{% endblock %}

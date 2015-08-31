@@ -1,0 +1,5 @@
+<form action="{% url 'feedback:feedback.create' %}" method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <input type="submit"/>
+</form>
