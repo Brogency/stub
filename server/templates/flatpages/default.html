@@ -10,4 +10,9 @@
     {% with documents=flatpage.get_documents %}
         {% include 'filestorage/documents.html'  %}
     {% endwith %}
+
+    {% with images=flatpage.get_images %}
+        {% include 'filestorage/images.html'  %}
+    {% endwith %}
+
 {% endblock %}

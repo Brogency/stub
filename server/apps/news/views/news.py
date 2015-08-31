@@ -1,37 +1,41 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.core.paginator import InvalidPage
+from django.http import Http404
 from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.core.urlresolvers import reverse
 from apps.news.models import News
+from django.utils.translation import ugettext as _
 
 
 class NewsListView(ListView):
     model = News
-    paginate_by = 10
+    paginate_by = 1
+    ordering = ['created']
 
-    def get_queryset(self):
-        """Override this method or remove."""
-        return super(NewsListView, self).get_queryset()
-
-    def get_context_data(self, **kwargs):
-        """Override this method or remove."""
-        context = super(NewsListView, self).get_context_data(**kwargs)
-        context.update({})
-        return context
-
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(
+            queryset, page_size, orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty())
+        page_kwarg = self.page_kwarg
+        page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg) or 'last'
+        try:
+            page_number = int(page)
+        except ValueError:
+            if page == 'last':
+                page_number = paginator.num_pages
+            else:
+                raise Http404(_("Page is not 'last', nor can it be converted to an int."))
+        try:
+            page = paginator.page(page_number)
+            return (paginator, page, page.object_list, page.has_other_pages())
+        except InvalidPage as e:
+            raise Http404(_('Invalid page (%(page_number)s): %(message)s') % {
+                'page_number': page_number,
+                'message': str(e)
+            })
 
 
 class NewsDetailView(DetailView):
     model = News
     slug_field = 'slug'
-
-    def get_object(self, queryset=None):
-        """Override this method or remove."""
-        return super(NewsDetailView, self).get_object(queryset=queryset)
-
-    def get_context_data(self, **kwargs):
-        """Override this method or remove."""
-        context = super(NewsDetailView, self).get_context_data(**kwargs)
-        context.update({})
-        return context

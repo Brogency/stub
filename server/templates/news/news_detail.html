@@ -3,6 +3,7 @@
 {% load staticfiles %}
 
 {% block content %}
+
     <div class="item-detail">
         <h1 class="item-detail__header">{{ object.title }}</h1>
         <p>{{ object.category }}</p>
@@ -16,11 +17,21 @@
                 <img src="{% static 'news/default.jpg' %}"/>
             {% endif %}
         </p>
-        <p>{{ object.description }}</p>
+        <div>{{ object.description|safe }}</div>
+        <p>Date: {{ item.created }}</p>
     </div>
 
     <div class="items__item__links">
         {% url 'news:news.list' as list_url %}
         {% if list_url %}<a href="{{ list_url }}">View all</a>{% endif %}
     </div>
+
+    {% with documents=object.get_documents %}
+        {% include 'filestorage/documents.html'  %}
+    {% endwith %}
+
+    {% with images=object.get_images %}
+        {% include 'filestorage/images.html'  %}
+    {% endwith %}
+
 {% endblock %}

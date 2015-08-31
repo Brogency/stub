@@ -7,7 +7,7 @@
     {% for item in object_list %}
         <div class="items__item">
             <a href="{{ item.get_absolute_url }}" class="items__item__link">{{ item.title }}</a>
-            <p>{{ item.category }}</p>
+            <p>Category: {{ item.category }}</p>
 
             <p>
                 {% thumbnail object.image|default:'news/images/default.png' 300x300 upscale as thumb %}
@@ -20,7 +20,7 @@
                 {% endif %}
             </p>
             <p>{{ item.short_description }}</p>
-            <p>{{ item.created }}</p>
+            <p>Date: {{ item.created }}</p>
         </div>
 
         <hr/>
@@ -30,16 +30,13 @@
 
     <div class="items__pagination">
         <span class="items__pagination__step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {# Paginate magic for reverse #}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">previous</a>
             {% endif %}
 
-            <span class="items__pagination__current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">next</a>
             {% endif %}
         </span>
     </div>
