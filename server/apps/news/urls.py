@@ -6,7 +6,7 @@ from apps.news.views import NewsListView
 
 urlpatterns = patterns(
     '',
-    url(r'^$', NewsListView.as_view(), name='news.list'),
-    url(r'^(?P<pk>\d+)/$', NewsDetailView.as_view(), name='news.detail'),
+    url(r'^$', NewsListView.as_view(), name='list'),
+    url(r'^(?P<slug>[\w-]+)/$', NewsDetailView.as_view(), name='detail'),
 )
 

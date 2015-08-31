@@ -8,5 +8,7 @@ from apps.feedback.forms.feedback import FeedbackForm
 
 class FeedbackCreateView(CreateView):
     model = Feedback
-    success_url = ''
     form_class = FeedbackForm
+
+    def get_success_url(self):
+        return reverse('feedback:success')

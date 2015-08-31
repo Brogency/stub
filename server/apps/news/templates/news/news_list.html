@@ -8,7 +8,6 @@
         <div class="items__item">
             <a href="{{ item.get_absolute_url }}" class="items__item__link">{{ item.title }}</a>
             <p>Category: {{ item.category }}</p>
-
             <p>
                 {% thumbnail object.image|default:'news/images/default.png' 300x300 upscale as thumb %}
                 {% if thumb.url %}

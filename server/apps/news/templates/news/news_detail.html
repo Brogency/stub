@@ -22,16 +22,16 @@
     </div>
 
     <div class="items__item__links">
-        {% url 'news:news.list' as list_url %}
+        {% url 'news:list' as list_url %}
         {% if list_url %}<a href="{{ list_url }}">View all</a>{% endif %}
     </div>
 
     {% with documents=object.get_documents %}
-        {% include 'filestorage/documents.html'  %}
+        {% include 'filestorage/documents.html' %}
     {% endwith %}
 
     {% with images=object.get_images %}
-        {% include 'filestorage/images.html'  %}
+        {% include 'filestorage/images.html' %}
     {% endwith %}
 
 {% endblock %}

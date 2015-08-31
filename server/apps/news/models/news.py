@@ -72,7 +72,7 @@ class News(FileStorageMixin):
         return str(self.pk)
 
     def get_absolute_url(self):
-        return reverse('news:news.detail', args=(self.pk,))
+        return reverse('news:detail', args=(self.slug,))
 
 @receiver(pre_save, sender=News)
 def create_initial(sender, instance, **kwargs):
