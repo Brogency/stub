@@ -25,6 +25,7 @@ LOCAL_APPS = (
     'apps.page',
     'apps.news',
     'apps.feedback',
+    'apps.catalog',
 )
 
 INSTALLED_APPS += LOCAL_APPS

@@ -10,20 +10,9 @@ from multiselectfield import MultiSelectField
 from django.conf import settings
 from redactor.fields import RedactorField
 from apps.filestorage.models.mixins.filestorage import FileStorageMixin
+from category import Category
 
-
-class News(FileStorageMixin):
-    DEFAULT = 'D'
-    IMPORTANT = 'I'
-    NEWS_TYPE = (
-        (DEFAULT, _('Default')),
-        (IMPORTANT, _('Important')),
-    )
-    type = models.CharField(
-        max_length=1,
-        choices=NEWS_TYPE,
-        default=DEFAULT,
-    )
+class Catalog(FileStorageMixin):
     available_languages = MultiSelectField(
         max_length=50,
         default='ru',
@@ -38,13 +27,13 @@ class News(FileStorageMixin):
         verbose_name=_('Slug'),
     )
     category = models.ForeignKey(
-        'news.Category',
+        Category,
         verbose_name=_('Category'),
         blank=True,
         null=True,
     )
     image = models.ImageField(
-        upload_to='news/%Y/%m/%d',
+        upload_to='catalog/%Y/%m/%d',
         blank=True,
         null=True,
     )
@@ -65,8 +54,8 @@ class News(FileStorageMixin):
     )
 
     class Meta:
-        verbose_name = _("News")
-        verbose_name_plural = _("News")
+        verbose_name = _("Catalog (RENAME)")
+        verbose_name_plural = _("Catalog (RENAME)")
 
     def __unicode__(self):
         return str(self.pk)
@@ -74,7 +63,7 @@ class News(FileStorageMixin):
     def get_absolute_url(self):
         return reverse('news:detail', args=(self.slug,))
 
-@receiver(pre_save, sender=News)
+@receiver(pre_save, sender=Catalog)
 def create_initial(sender, instance, **kwargs):
     if not instance.id:
         instance.created = datetime.datetime.today()
